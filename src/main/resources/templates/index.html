@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/head :: cssAndJs"></div>
+    <meta charset="UTF-8">
+    <title>Kezdőlap</title>
+</head>
+<body>
+
+<div class="container-fluid">
+
+    <!-- menu -->
+    <div th:replace="fragments/menu :: menu"></div>
+
+    <!-- course table -->
+    <div th:if="${#lists.isEmpty(courses)}">
+        <div class="row" style="margin-top: 40px">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                Nincsenek kurzusok. Hozz létre kurzust <a href="/kurzus/uj">itt.</a>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+    <div th:unless="${#lists.isEmpty(courses)}" class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-10">
+                    <h3>
+                        Kurzusok
+                    </h3>
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Kurzus
+                            </th>
+                            <th>
+
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="course : ${courses}">
+                            <td th:text="${course.getId()}">
+                                id
+                            </td>
+                            <td>
+                                <a th:href="'/kurzus/' + ${course.getId()}" th:text="${course.getName()}">name</a>
+                            </td>
+                            <td style="text-align: right;">
+                                <a th:href="'/kurzus/szerkesztes/' + ${course.getId()}">Szerkesztés</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+
+    <!-- room table -->
+    <div th:if="${#lists.isEmpty(rooms)}">
+        <div class="row" style="margin-top: 40px">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                Nincsenek termek. Hozz létre termet <a href="/terem/uj">itt.</a>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+    <div th:unless="${#lists.isEmpty(rooms)}" class="row" style="margin-top: 40px">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-10">
+                    <h3>
+                        Termek
+                    </h3>
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Terem
+                            </th>
+                            <th>
+                                Szint
+                            </th>
+                            <th>
+
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="room : ${rooms}">
+                            <td th:text="${room.getId()}">
+                                id
+                            </td>
+                            <td>
+                                <a th:href="'/terem/' + ${room.getId()}" th:text="${room.getName()}">name</a>
+                            </td>
+                            <td th:text="${room.getLevel()}">
+                                level
+                            </td>
+                            <td style="text-align: right;">
+                                <a th:href="'#'">Szerkesztés</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>
+<script>getRoomById(1);</script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/head :: cssAndJs"></div>
+    <meta charset="UTF-8">
+    <title th:text="${course.getName()} + ' szerkesztése'">Title</title>
+</head>
+<body>
+
+<div class="container-fluid">
+
+    <!-- menu -->
+    <div th:replace="fragments/menu :: menu"></div>
+
+    <!-- form -->
+    <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <h3>
+                Új kurzus
+            </h3>
+            <form th:object="${course}" th:action="@{/kurzus/edit/{id} (id = ${course.getId()})}" role="form" method="post">
+                <div class="form-group">
+                    <label for="nameInput">
+                        Kurzus neve
+                    </label>
+                    <input th:field="*{name}" type="text" class="form-control" id="nameInput" required/>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" style="padding: 0px" for="selectbasic">Válassz termet</label>
+                    <div class="col-md-4" style="padding: 0px">
+                        <select th:field="${rooms}" id="selectbasic" name="selectbasic" class="form-control">
+                            <option th:each="room : ${rooms}" th:value="${room.getId()}" th:text="${room.getName()} + ' (' + ${room.getLevel()} + '. szint)'"></option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success">
+                    Mentés
+                </button>
+            </form>
+            <button class="btn btn-danger" th:onclick="'deleteNotification(' + ${course.getId()} + ')'">
+                Törlés
+            </button>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function deleteNotification() {
+        var id = /*[[${course.getId()}]]*/ '-1';
+        swal({
+            title: "Biztos hogy törölni szeretnéd?",
+            text: "",
+            icon: "warning",
+            buttons: {
+                cancel: "Mégse",
+                delete: {
+                    text: "Igen",
+                    value: "del",
+                },
+            }
+        })
+            .then((value) =>{
+            if(value == "del")
+        window.location = '/kurzus/delete/' + id;
+    })
+    }
+    /*]]>*/
+</script>
+
+</body>
+</html>

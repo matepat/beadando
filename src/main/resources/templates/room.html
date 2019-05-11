@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/head :: cssAndJs"></div>
+    <meta charset="UTF-8">
+    <title th:text="${room.getName()} + ' terem'">Title</title>
+</head>
+<body>
+
+<div class="container-fluid">
+
+    <!-- menu -->
+    <div th:replace="fragments/menu :: menu"></div>
+
+    <!-- room -->
+    <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-12">
+                    Terem neve: <h3 th:text="${room.getName()}"></h3>
+                </div>
+                <div class="col-md-12">
+                    Terem szintje: <h3 th:text="${room.getLevel()} + '. szint'"></h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+
+    <!-- courses in room -->
+    <div th:if="${#lists.isEmpty(courses)}">
+        <div class="row" style="margin-top: 40px">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                Nincsenek kurzusok ebben a teremben. Hozz létre kurzust <a href="/kurzus/uj">itt.</a>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+    <div th:unless="${#lists.isEmpty(courses)}" class="row" style="margin-top: 40px">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-10">
+                    <h3>
+                        Kurzusok a teremben
+                    </h3>
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Kurzus
+                            </th>
+                            <th>
+
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="course : ${courses}">
+                            <td th:text="${course.getId()}">
+                                id
+                            </td>
+                            <td>
+                                <a th:href="'/kurzus/' + ${course.getId()}" th:text="${course.getName()}">name</a>
+                            </td>
+                            <td>
+                                <a th:href="'#'">Szerkesztés</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
