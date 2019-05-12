@@ -30,7 +30,7 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" style="padding: 0px" for="selectbasic">Válassz termet</label>
                     <div class="col-md-4" style="padding: 0px">
-                        <select th:field="${rooms}" id="selectbasic" name="selectbasic" class="form-control">
+                        <select th:field="*{roomId}" id="selectbasic" name="selectbasic" class="form-control">
                             <option th:each="room : ${rooms}" th:value="${room.getId()}" th:text="${room.getName()} + ' (' + ${room.getLevel()} + '. szint)'"></option>
                         </select>
                     </div>

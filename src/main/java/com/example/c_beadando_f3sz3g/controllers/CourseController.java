@@ -32,7 +32,6 @@ public class CourseController {
 
     @RequestMapping(value = "/kurzus/save", method = POST)
     public String saveCourse(@Valid Course course){
-        course.setRoomId(1);
         courseService.saveOrUpdate(course);
         return "redirect:/";
     }

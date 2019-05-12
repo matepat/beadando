@@ -41,4 +41,23 @@ public class RoomController {
         model.addAttribute("courses", courseService.listAllByRoomId(id));
         return "room";
     }
+
+    @RequestMapping("/terem/szerkesztes/{id}")
+    public String editRoom(Model model, @PathVariable int id){
+        model.addAttribute("room", roomService.getById(id));
+         return "editroom";
+    }
+
+    @RequestMapping("/terem/delete/{id}")
+    public String deleteRoom(@PathVariable int id){
+        roomService.delete(id);
+        return "redirect:/";
+    }
+
+    @RequestMapping("/terem/update/{id}")
+    public String updateRoom(@PathVariable int id, @Valid Room room){
+        room.setId(id);
+        roomService.saveOrUpdate(room);
+        return "redirect:/";
+    }
 }

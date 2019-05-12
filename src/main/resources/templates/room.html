@@ -77,8 +77,8 @@
                             <td>
                                 <a th:href="'/kurzus/' + ${course.getId()}" th:text="${course.getName()}">name</a>
                             </td>
-                            <td>
-                                <a th:href="'#'">Szerkesztés</a>
+                            <td style="text-align: right;">
+                                <a th:href="'/kurzus/szerkesztes/' + ${course.getId()}">Szerkesztés</a>
                             </td>
                         </tr>
                         </tbody>
