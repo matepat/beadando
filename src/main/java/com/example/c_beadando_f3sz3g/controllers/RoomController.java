@@ -37,8 +37,9 @@ public class RoomController {
 
     @RequestMapping("/terem/{id}")
     public String getRoom(Model model, @PathVariable int id){
-        model.addAttribute("room", roomService.getById(id));
-        model.addAttribute("courses", courseService.listAllByRoomId(id));
+        Room room = roomService.getById(id);
+        model.addAttribute("room", room);
+        model.addAttribute("courses", courseService.listAllByRoom(room));
         return "room";
     }
 

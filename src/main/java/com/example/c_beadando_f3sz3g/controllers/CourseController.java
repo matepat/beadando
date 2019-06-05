@@ -1,6 +1,7 @@
 package com.example.c_beadando_f3sz3g.controllers;
 
 import com.example.c_beadando_f3sz3g.entities.Course;
+import com.example.c_beadando_f3sz3g.entities_form.CourseForm;
 import com.example.c_beadando_f3sz3g.services.CourseService;
 import com.example.c_beadando_f3sz3g.services.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +26,14 @@ public class CourseController {
 
     @RequestMapping("/kurzus/uj")
     public String getNewCourse(Model model){
-        model.addAttribute("course", new Course());
+        model.addAttribute("course", new CourseForm());
         model.addAttribute("rooms", roomService.listAll());
         return "newcourse";
     }
 
     @RequestMapping(value = "/kurzus/save", method = POST)
-    public String saveCourse(@Valid Course course){
-        courseService.saveOrUpdate(course);
+    public String saveCourse(@Valid CourseForm courseForm){
+        courseService.saveOrUpdate(courseService.CourseFormToCourse(courseForm));
         return "redirect:/";
     }
 
@@ -40,21 +41,21 @@ public class CourseController {
     public String getCourse(@PathVariable int id, Model model){
         Course course = courseService.getById(id);
         model.addAttribute("course", course);
-        model.addAttribute("room", roomService.getById(course.getRoomId()));
+        model.addAttribute("room", course.getRoom());
         return "course";
     }
 
     @RequestMapping("/kurzus/szerkesztes/{id}")
     public String getEditCourse(Model model, @PathVariable int id){
-        model.addAttribute("course", courseService.getById(id));
+        model.addAttribute("course", new CourseForm(courseService.getById(id)));
         model.addAttribute("rooms", roomService.listAll());
         return "editcourse";
     }
 
     @RequestMapping("/kurzus/edit/{id}")
-    public String updateCourse(@PathVariable int id, @Valid Course updatedCourse){
-        updatedCourse.setId(id);
-        courseService.saveOrUpdate(updatedCourse);
+    public String updateCourse(@PathVariable int id, @Valid CourseForm updatedCourseForm){
+        updatedCourseForm.setId(id);
+        courseService.saveOrUpdate(courseService.CourseFormToCourse(updatedCourseForm));
         return "redirect:/";
     }
 

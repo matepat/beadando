@@ -12,5 +12,6 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
     String name;
-    int roomId;
+    @ManyToOne
+    Room room;
 }
