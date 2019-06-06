@@ -61,4 +61,10 @@ public class RoomController {
         roomService.saveOrUpdate(room);
         return "redirect:/";
     }
+
+    @RequestMapping("/terem/v")
+    public String getRoomS(Model model){
+        model.addAttribute("rooms", roomService.listAll());
+        return "selectroom";
+    }
 }

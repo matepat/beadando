@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/head :: cssAndJs"></div>
+    <meta charset="UTF-8">
+    <title th:text="T">Title</title>
+</head>
+<body>
+
+<div class="container-fluid">
+
+    <!-- menu -->
+    <div th:replace="fragments/menu :: menu"></div>
+
+    <!-- select -->
+    <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-6">
+                    <select id="selectbasic" onchange="getCourses()" name="selectbasic" class="form-control">
+                        <option value="" selected disabled hidden>Válassz termet</option>
+                        <option th:each="room : ${rooms}" th:value="${room.getId()}" th:text="${room.getName()} + ' (' + ${room.getLevel()} + '. szint)'"></option>
+                    </select>
+                </div>
+                <div class="col-md-6" id="answer">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+
+</div>
+<script>
+    function getCourses() {
+        document.getElementById("answer").innerHTML = '<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>'
+
+        var id = document.getElementById("selectbasic").options[document.getElementById("selectbasic").selectedIndex].value;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var resp = "Kurzusok a teremben: ";
+                var obj = JSON.parse(this.responseText);
+                if(obj.courses[0] == null) resp = "Nincsenek kurzusok a teremben";
+                else{
+                    for(var i = 0;i < obj.courses.length; i++){
+                        resp += '<a href="/kurzus/' + obj.courses[i].id + '">' + obj.courses[i].name + '</a> ';
+                    }
+                }
+
+                document.getElementById("answer").innerHTML = resp;
+            }
+        };
+        xhttp.open("GET", "/api/course/getbyroomid/" + id, true);
+        xhttp.send();
+    }
+</script>
+</body>
+</html>
